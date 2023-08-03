@@ -19,6 +19,8 @@ void log_print(const char *str, ...){
 void debug_print(const char *str, ...){
     #ifdef DEBUG_MODE
     PRINT_VA(str);
+    #else
+    (void)str;
     #endif
 }
 
@@ -26,5 +28,7 @@ void debug_printn(const char *str, ...){
     #ifdef DEBUG_MODE
     PRINT_VA(str);
     PRINT_NEW_LINE;
+    #else
+    (void)str;
     #endif
 }

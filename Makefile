@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Iinc
+CFLAGS = -Wall -Wextra -Wunused-parameter -Iinc
 SRCDIR = src
 BUILDDIR = build
 DEFINES =

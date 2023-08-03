@@ -7,7 +7,7 @@ DEFINES =
 SRCS = $(wildcard $(SRCDIR)/*.c)
 OBJS = $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SRCS))
 
-TARGET = $(BUILDDIR)/executable
+TARGET = $(BUILDDIR)/simple-vm
 
 .PHONY: all clean
 

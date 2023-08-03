@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "args.h"
 #include "log.h"
+#include "vm.h"
 
 #if LOG_MODE >= 1
 #define DEBUG_MODE

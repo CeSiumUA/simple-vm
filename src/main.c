@@ -14,5 +14,7 @@ int main(int argc, char **argv){
 
     parse_args(argc, argv, &vm_args);
 
+    start_vm(vm_args);
+
     return 0;
 }

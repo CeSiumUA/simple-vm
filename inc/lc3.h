@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define LC3_MEMORY_MAX                  (1 << 16)
 #define LC3_PC_DEFAULT_START            (0x3000)
@@ -55,5 +56,6 @@ uint16_t memory[LC3_MEMORY_MAX];
 uint16_t registers[R_COUNT];
 
 void lc3_reset(void);
+void lc3_run(void);
 
 #endif

@@ -10,16 +10,53 @@
 #define LC3_MEMORY_MAX                  (1 << 16)
 #define LC3_PC_DEFAULT_START            (0x3000)
 
-#define LC3_ADD_DR_OFFSET               (9)
-#define LC3_ADD_R_MASK                  (0x7)
-#define LC3_ADD_SR_OFFSET               (6)                 
-#define LC3_ADD_IMM_FLAG_OFFSET         (5)
-#define LC3_ADD_IMM_MASK                (0x1F)
+#define LC3_DR_OFFSET                   (9)
+#define LC3_R_MASK                      (0x7)
+#define LC3_SR_OFFSET                   (6)
+#define LC3_IMM_FLAG_OFFSET             (5)
+#define LC3_IMM_MASK                    (0x1F)
+#define LC3_ADDR_MASK                   (0x1FF)
+#define LC3_ADDR_LENGTH                 (9)
+
+#define LC3_ADD_DR_OFFSET               LC3_DR_OFFSET
+#define LC3_ADD_R_MASK                  LC3_R_MASK
+#define LC3_ADD_SR_OFFSET               LC3_SR_OFFSET                 
+#define LC3_ADD_IMM_FLAG_OFFSET         LC3_IMM_FLAG_OFFSET
+#define LC3_ADD_IMM_MASK                LC3_IMM_MASK
 
 #define LC3_LDI_DR_OFFSET               LC3_ADD_DR_OFFSET
 #define LC3_LDI_R_MASK                  LC3_ADD_R_MASK
-#define LC3_LDI_ADDR_MASK               (0x1FF)
-#define LC3_LDI_ADDR_LENGTH             LC3_LDI_DR_OFFSET
+#define LC3_LDI_ADDR_MASK               LC3_ADDR_MASK
+#define LC3_LDI_ADDR_LENGTH             LC3_ADDR_LENGTH
+
+#define LC3_AND_DR_OFFSET               LC3_ADD_DR_OFFSET
+#define LC3_AND_R_MASK                  LC3_ADD_R_MASK
+#define LC3_AND_SR_OFFSET               LC3_ADD_SR_OFFSET
+#define LC3_AND_IMM_FLAG_OFFSET         LC3_ADD_IMM_FLAG_OFFSET
+#define LC3_AND_IMM_MASK                LC3_ADD_IMM_MASK
+
+#define LC3_NOT_DR_OFFSET               LC3_ADD_DR_OFFSET
+#define LC3_NOT_R_MASK                  LC3_ADD_R_MASK
+#define LC3_NOT_SR_OFFSET               LC3_ADD_SR_OFFSET
+
+#define LC3_JSR_LONG_FLAG_OFFSET        (11)
+#define LC3_JSR_SR_OFFSET               LC3_SR_OFFSET
+#define LC3_JSR_PC_MASK                 (0x7FF)
+
+#define LC3_LDR_ADDR_LENGTH             (6)
+#define LC3_LDR_ADDR_MASK               (0x3F)
+
+#define LC3_LEA_ADDR_MASK               LC3_ADDR_MASK
+#define LC3_LEA_ADDR_LENGTH             LC3_ADDR_LENGTH
+
+#define LC3_ST_ADDR_MASK                LC3_ADDR_MASK
+#define LC3_ST_ADDR_LENGTH              LC3_ADDR_LENGTH
+
+#define LC3_STI_ADDR_MASK               LC3_ADDR_MASK
+#define LC3_STI_ADDR_LENGTH             LC3_ADDR_LENGTH
+
+#define LC3_STR_ADDR_LENGTH             LC3_LDR_ADDR_LENGTH
+#define LC3_STR_ADDR_MASK               LC3_LDR_ADDR_MASK
 
 typedef enum LC3_REGISTER
 {

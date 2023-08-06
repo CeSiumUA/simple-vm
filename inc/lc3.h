@@ -10,6 +10,17 @@
 #define LC3_MEMORY_MAX                  (1 << 16)
 #define LC3_PC_DEFAULT_START            (0x3000)
 
+#define LC3_ADD_DR_OFFSET               (9)
+#define LC3_ADD_R_MASK                  (0x7)
+#define LC3_ADD_SR_OFFSET               (6)                 
+#define LC3_ADD_IMM_FLAG_OFFSET         (5)
+#define LC3_ADD_IMM_MASK                (0x1F)
+
+#define LC3_LDI_DR_OFFSET               LC3_ADD_DR_OFFSET
+#define LC3_LDI_R_MASK                  LC3_ADD_R_MASK
+#define LC3_LDI_ADDR_MASK               (0x1FF)
+#define LC3_LDI_ADDR_LENGTH             LC3_LDI_DR_OFFSET
+
 typedef enum LC3_REGISTER
 {
     R_R0 = 0,

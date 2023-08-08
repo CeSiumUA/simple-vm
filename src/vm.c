@@ -4,7 +4,7 @@ struct termios original_tio;
 
 vm_result start_vm(vm_args_t vm_args){
 
-    FILE *asm_file = fopen(vm_args.asm_file_path, 'r');
+    FILE *asm_file = fopen(vm_args.asm_file_path, "rb");
 
     if(!asm_file){
         debug_printn("ASM file not found by specified path: %s", vm_args.asm_file_path);
@@ -22,6 +22,8 @@ vm_result start_vm(vm_args_t vm_args){
     lc3_run();
 
     restore_input_buffering();
+
+    return OK;
 }
 
 void disable_input_buffering(void){

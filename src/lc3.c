@@ -15,6 +15,9 @@
 
 bool lc3_running = false;
 
+uint16_t memory[LC3_MEMORY_MAX];
+uint16_t registers[R_COUNT];
+
 static uint16_t sign_extend(uint16_t ins, int bit_count);
 static void update_cond_flag(uint16_t reg);
 static bool check_key(void);
@@ -177,7 +180,7 @@ static void add(uint16_t instruction){
 static void ldi(uint16_t instruction){
     uint16_t dr = GET_DR(instruction);
 
-    uint16_t pc_offset = lc3_sign_extend(instruction & LC3_LDI_ADDR_MASK, LC3_LDI_ADDR_LENGTH);
+    uint16_t pc_offset = sign_extend(instruction & LC3_LDI_ADDR_MASK, LC3_LDI_ADDR_LENGTH);
 
     uint16_t mem_ptr = memory_read(registers[R_PC] + pc_offset);
 
@@ -350,7 +353,7 @@ static void puts_lc3(void){
 
     while (*c)
     {
-        putc((char *)c, stdout);
+        putc((char)*c, stdout);
         c++;
     }
     fflush(stdout);

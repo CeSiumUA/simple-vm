@@ -119,9 +119,6 @@ typedef enum LC3_MMR{
     MR_KBDR = 0xFE02  /* keyboard data */
 } LC3_MMR;
 
-uint16_t memory[LC3_MEMORY_MAX];
-uint16_t registers[R_COUNT];
-
 void lc3_reset(void);
 void lc3_run(void);
 void lc3_load_image(FILE *file);

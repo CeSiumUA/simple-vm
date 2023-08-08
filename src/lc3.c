@@ -11,10 +11,14 @@
 
 #define GET_FLAG(instruction, offset)               GET_OFFSET_MASK(instruction, offset, (0x1))
 
+#define SWAP16(X)                                   (((X) << 8) | ((X) >> 8))
+
 bool lc3_running = false;
 
 static uint16_t sign_extend(uint16_t ins, int bit_count);
 static void update_cond_flag(uint16_t reg);
+static bool check_key(void);
+static uint16_t memory_read(uint16_t address);
 
 OP_DEF(add);
 OP_DEF(ldi);
@@ -37,8 +41,6 @@ TRP_DEF(out_lc3);
 TRP_DEF(in_lc3);
 TRP_DEF(putsp_lc3);
 TRP_DEF(halt_lc3);
-
-static uint16_t memory_read(uint16_t address);
 
 void lc3_reset(void){
     memset(memory, 0, sizeof(memory));
@@ -111,6 +113,28 @@ void lc3_run(void){
     
 }
 
+void lc3_load_image(FILE *file){
+    uint16_t origin;
+    fread(&origin, sizeof(origin), 1, file);
+    origin = SWAP16(origin);
+
+    uint16_t max_read = LC3_MEMORY_MAX - origin;
+    uint16_t *start_p = memory + origin;
+
+    size_t read = fread(start_p, sizeof(*start_p), max_read, file);
+
+    while (read-- > 0)
+    {
+        *start_p = SWAP16(*start_p);
+        start_p++;
+    }
+    
+}
+
+void lc3_stop(void){
+    lc3_running = false;
+}
+
 static uint16_t sign_extend(uint16_t ins, int bit_count){
     if((ins >> (bit_count - 1)) & 1){
         ins |= (0xFFFF << bit_count);
@@ -161,6 +185,15 @@ static void ldi(uint16_t instruction){
 }
 
 static uint16_t memory_read(uint16_t address){
+    if(address == MR_KBSR){
+        if(check_key()){
+            memory[MR_KBSR] = (1 << 15);
+            memory[MR_KBDR] = getchar();
+        }
+        else{
+            memory[MR_KBSR] = 0;
+        }
+    }
     return memory[address];
 }
 
@@ -370,4 +403,15 @@ static void halt_lc3(void){
     puts("HALT");
     fflush(stdout);
     lc3_running = false;
+}
+
+static bool check_key(void){
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(STDIN_FILENO, &readfds);
+
+    struct timeval timeout;
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 0;
+    return select(1, &readfds, NULL, NULL, &timeout) != 0;
 }

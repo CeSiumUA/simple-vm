@@ -10,6 +10,9 @@
 		"C_Cpp.default.includePath": [
 			"${workspaceRoot}/inc/"
 		],
-		"C_Cpp.default.intelliSenseMode": "linux-gcc-x64"
+		"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
+		"files.associations": {
+			"main.h": "c"
+		}
 	}
 }

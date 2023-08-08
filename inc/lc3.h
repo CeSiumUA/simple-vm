@@ -4,8 +4,13 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include <stdbool.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/termios.h>
+#include <sys/mman.h>
 
 #define LC3_MEMORY_MAX                  (1 << 16)
 #define LC3_PC_DEFAULT_START            (0x3000)
@@ -109,10 +114,17 @@ typedef enum LC3_COND_FLAG
     FL_NEG = 1 << 2, /* N */
 } LC3_COND_FLAG;
 
+typedef enum LC3_MMR{
+    MR_KBSR = 0xFE00, /* keyboard status */
+    MR_KBDR = 0xFE02  /* keyboard data */
+} LC3_MMR;
+
 uint16_t memory[LC3_MEMORY_MAX];
 uint16_t registers[R_COUNT];
 
 void lc3_reset(void);
 void lc3_run(void);
+void lc3_load_image(FILE *file);
+void lc3_stop(void);
 
 #endif

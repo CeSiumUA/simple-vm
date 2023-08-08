@@ -10,7 +10,7 @@ vm_result start_vm(vm_args_t vm_args){
 
     if(!asm_file){
         debug_printn("ASM file not found by specified path: %s", vm_args.asm_file_path);
-        return ASM_FILE_NOT_FOUND;
+        return VM_ASM_FILE_NOT_FOUND;
     }
 
     disable_input_buffering();
@@ -25,11 +25,11 @@ vm_result start_vm(vm_args_t vm_args){
 
     restore_input_buffering();
 
-    if(lc3_res == INVALID_INSTRUCTION){
-        return INVALID_INSTRUCTION;
+    if(lc3_res == LC3_INVALID_INSTRUCTION){
+        return VM_INVALID_INSTRUCTION;
     }
 
-    return OK;
+    return VM_OK;
 }
 
 void disable_input_buffering(void){

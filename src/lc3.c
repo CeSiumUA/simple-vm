@@ -109,12 +109,12 @@ lc3_result lc3_run(void){
             case OP_RES:
             case OP_RTI:
             default:
-                return INVALID_INSTRUCTION;
+                return LC3_INVALID_INSTRUCTION;
                 break;
         }
     }
     
-    return OK;
+    return LC3_OK;
 }
 
 void lc3_load_image(FILE *file){

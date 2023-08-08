@@ -120,8 +120,8 @@ typedef enum LC3_MMR{
 } LC3_MMR;
 
 typedef enum LC3_EXIT_CODE {
-    OK = 0,
-    INVALID_INSTRUCTION,
+    LC3_OK = 0,
+    LC3_INVALID_INSTRUCTION,
 } LC3_EXIT_CODE;
 
 typedef LC3_EXIT_CODE lc3_result;

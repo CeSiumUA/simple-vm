@@ -10,9 +10,9 @@
 #include <fcntl.h>
 
 typedef enum VM_EXIT_CODE {
-    OK = 0,
-    ASM_FILE_NOT_FOUND,
-    INVALID_INSTRUCTION,
+    VM_OK = 0,
+    VM_ASM_FILE_NOT_FOUND,
+    VM_INVALID_INSTRUCTION,
 } VM_EXIT_CODE;
 
 typedef VM_EXIT_CODE vm_result;

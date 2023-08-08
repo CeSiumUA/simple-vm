@@ -1,6 +1,7 @@
 #include "lc3.h"
 
 #define OP_DEF(operation)                           static void operation(uint16_t instruction)
+#define TRP_DEF(operation)                          static void operation(void)
 
 #define GET_OFFSET_MASK(instruction, offset, mask)  (((instruction) >> (offset)) & (mask))              
 #define GET_R(instruction, register_offset)         GET_OFFSET_MASK(instruction, register_offset, LC3_R_MASK)
@@ -28,6 +29,14 @@ OP_DEF(lea);
 OP_DEF(st);
 OP_DEF(sti);
 OP_DEF(str);
+OP_DEF(trap);
+
+TRP_DEF(puts_lc3);
+TRP_DEF(getc_lc3);
+TRP_DEF(out_lc3);
+TRP_DEF(in_lc3);
+TRP_DEF(putsp_lc3);
+TRP_DEF(halt_lc3);
 
 static uint16_t memory_read(uint16_t address);
 
@@ -87,10 +96,10 @@ void lc3_run(void){
                 sti(instruction);
                 break;
             case OP_STR:
-                @{STR}
+                str(instruction);
                 break;
             case OP_TRAP:
-                @{TRAP}
+                trap(instruction);
                 break;
             case OP_RES:
             case OP_RTI:
@@ -275,4 +284,90 @@ static void str(uint16_t instruction){
     uint16_t base_addr = registers[sr];
 
     memory[base_addr + pc_offset] = registers[dr];
+}
+
+static void trap(uint16_t instruction){
+    registers[R_R7] = registers[R_PC];
+
+    switch (instruction & 0xFF)
+    {
+        case TRAP_GETC:
+            getc_lc3();
+            break;
+        case TRAP_OUT:
+            out_lc3();
+            break;
+        case TRAP_PUTS:
+            puts_lc3();
+            break;
+        case TRAP_IN:
+            in_lc3();
+            break;
+        case TRAP_PUTSP:
+            putsp_lc3();
+            break;
+        case TRAP_HALT:
+            halt_lc3();
+            break;
+    }
+}
+
+static void puts_lc3(void){
+    uint16_t *c = memory + registers[R_R0];
+
+    while (*c)
+    {
+        putc((char *)c, stdout);
+        c++;
+    }
+    fflush(stdout);
+}
+
+static void getc_lc3(void){
+    registers[R_R0] = (uint16_t)getchar();
+    update_cond_flag(R_R0);
+}
+
+static void out_lc3(void){
+    char c = (char)registers[R_R0];
+
+    putc(c, stdout);
+
+    fflush(stdout);
+}
+
+static void in_lc3(void){
+    printf("Enter a character: ");
+
+    char c = getchar();
+    putc(c, stdout);
+
+    fflush(stdout);
+
+    registers[R_R0] = (uint16_t)c;
+
+    update_cond_flag(R_R0);
+}
+
+static void putsp_lc3(void){
+    uint16_t *c = memory + registers[R_R0];
+
+    while(*c){
+        char c1 = (*c) & 0xFF;
+        putc(c1, stdout);
+        char c2 = (*c) >> 8;
+        if(c2){
+            putc(c2, stdout);
+        }
+
+        c++;
+    }
+
+    fflush(stdout);
+}
+
+static void halt_lc3(void){
+    puts("HALT");
+    fflush(stdout);
+    lc3_running = false;
 }

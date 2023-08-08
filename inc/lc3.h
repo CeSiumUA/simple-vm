@@ -93,6 +93,15 @@ typedef enum LC3_OPCODE
     OP_TRAP    /* execute trap */
 } LC3_OPCODE;
 
+typedef enum LC3_TRAP_CODE{
+    TRAP_GETC = 0x20,  /* get character from keyboard, not echoed onto the terminal */
+    TRAP_OUT = 0x21,   /* output a character */
+    TRAP_PUTS = 0x22,  /* output a word string */
+    TRAP_IN = 0x23,    /* get character from keyboard, echoed onto the terminal */
+    TRAP_PUTSP = 0x24, /* output a byte string */
+    TRAP_HALT = 0x25   /* halt the program */
+} LC3_TRAP_CODE;
+
 typedef enum LC3_COND_FLAG
 {
     FL_POS = 1 << 0, /* P */

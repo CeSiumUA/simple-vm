@@ -49,5 +49,5 @@ void stop_vm(int signal){
 
     debug_printn("exitting with signal: %d", signal);
 
-    exit(-2);
+    exit(0 - signal);
 }

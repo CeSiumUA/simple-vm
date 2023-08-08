@@ -327,7 +327,7 @@ static void st(uint16_t instruction){
 
     uint16_t pc_offset = sign_extend(instruction & LC3_ST_ADDR_MASK, LC3_ST_ADDR_LENGTH);
 
-    memory[(registers[R_PC] + pc_offset)] = registers[dr];
+    memory[(uint16_t)(registers[R_PC] + pc_offset)] = registers[dr];
 }
 
 static void sti(uint16_t instruction){

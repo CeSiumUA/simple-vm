@@ -1,6 +1,7 @@
 #ifndef LC3_H_
 #define LC3_H_
 
+#include "log.h"
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>

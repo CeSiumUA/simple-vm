@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Wunused-parameter -Iinc
 SRCDIR = src
 BUILDDIR = build
-DEFINES =
+DEFINES = -DLOG_MODE=1
 
 SRCS = $(wildcard $(SRCDIR)/*.c)
 OBJS = $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SRCS))

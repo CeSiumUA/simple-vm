@@ -12,7 +12,9 @@
 		],
 		"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
 		"files.associations": {
-			"main.h": "c"
+			"main.h": "c",
+			"lc3.h": "c",
+			"log.h": "c"
 		}
 	}
 }

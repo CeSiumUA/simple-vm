@@ -15,11 +15,11 @@ vm_result start_vm(vm_args_t vm_args){
 
     disable_input_buffering();
 
+    lc3_reset();
+
     lc3_load_image(asm_file);
 
     fclose(asm_file);
-
-    lc3_reset();
 
     lc3_res = lc3_run();
 

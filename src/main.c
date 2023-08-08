@@ -16,7 +16,11 @@ int main(int argc, char **argv){
 
     parse_args(argc, argv, &vm_args);
 
-    start_vm(vm_args);
+    vm_result res = start_vm(vm_args);
+
+    if(res != VM_OK){
+        log_printn("VM returned an error: %d", res);
+    }
 
     return 0;
 }

@@ -62,49 +62,79 @@ lc3_result lc3_run(void){
 
         uint16_t op = instruction >> 12;
 
+        debug_printn("instruction to execute: %u", instruction);
+
         switch (op)
         {
             case OP_ADD:
+                debug_printn("executing add operation");
                 add(instruction);
+                debug_printn("add finished");
                 break;
             case OP_AND:
+                debug_printn("executing and operation");
                 and(instruction);
+                debug_printn("and finished");
                 break;
             case OP_NOT:
+                debug_printn("executing not operation");
                 not(instruction);
+                debug_printn("not finished");
                 break;
             case OP_BR:
+                debug_printn("executing br operation");
                 branch(instruction);
+                debug_printn("br finished");
                 break;
             case OP_JMP:
+                debug_printn("executing jmp operation");
                 jump(instruction);
+                debug_printn("jmp finished");
                 break;
             case OP_JSR:
+                debug_printn("executing jsr operation");
                 jsr(instruction);
+                debug_printn("jsr finished");
                 break;
             case OP_LD:
+                debug_printn("executing ld operation");
                 ld(instruction);
+                debug_printn("ld finished");
                 break;
             case OP_LDI:
+                debug_printn("executing ldi operation");
                 ldi(instruction);
+                debug_printn("ldi finished");
                 break;
             case OP_LDR:
+                debug_printn("executing ldr operation");
                 ldr(instruction);
+                debug_printn("ldr finished");
                 break;
             case OP_LEA:
+                debug_printn("executing lea operation");
                 lea(instruction);
+                debug_printn("lea finished");
                 break;
             case OP_ST:
+                debug_printn("executing st operation");
                 st(instruction);
+                debug_printn("st finished");
                 break;
             case OP_STI:
+                debug_printn("executing sti operation");
                 sti(instruction);
+                debug_printn("sti finished");
                 break;
             case OP_STR:
+                debug_printn("executing str operation");
                 str(instruction);
+                debug_printn("str finished");
                 break;
             case OP_TRAP:
+                debug_printn("executing trap operation");
                 trap(instruction);
+                debug_printn("trap finished");
                 break;
             case OP_RES:
             case OP_RTI:

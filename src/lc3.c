@@ -11,8 +11,6 @@
 
 #define GET_FLAG(instruction, offset)               GET_OFFSET_MASK(instruction, offset, (0x1))
 
-#define SWAP16(X)                                   (((X) << 8) | ((X) >> 8))
-
 bool lc3_running = false;
 
 uint16_t memory[LC3_MEMORY_MAX];
@@ -22,6 +20,7 @@ static uint16_t sign_extend(uint16_t ins, int bit_count);
 static void update_cond_flag(uint16_t reg);
 static bool check_key(void);
 static uint16_t memory_read(uint16_t address);
+static uint16_t swap16(uint16_t val);
 
 OP_DEF(add);
 OP_DEF(ldi);
@@ -46,8 +45,8 @@ TRP_DEF(putsp_lc3);
 TRP_DEF(halt_lc3);
 
 void lc3_reset(void){
-    memset(memory, 0, sizeof(memory));
-    memset(registers, 0, sizeof(registers));
+    // memset(memory, 0, sizeof(memory));
+    // memset(registers, 0, sizeof(registers));
     registers[R_COND] = FL_ZRO;
 
     registers[R_PC] = LC3_PC_DEFAULT_START;
@@ -150,7 +149,7 @@ lc3_result lc3_run(void){
 void lc3_load_image(FILE *file){
     uint16_t origin;
     fread(&origin, sizeof(origin), 1, file);
-    origin = SWAP16(origin);
+    origin = swap16(origin);
 
     uint16_t max_read = LC3_MEMORY_MAX - origin;
     uint16_t *start_p = memory + origin;
@@ -159,7 +158,7 @@ void lc3_load_image(FILE *file){
 
     while (read-- > 0)
     {
-        *start_p = SWAP16(*start_p);
+        *start_p = swap16(*start_p);
         start_p++;
     }
     
@@ -310,7 +309,7 @@ static void ldr(uint16_t instruction){
 
     registers[dr] = memory_read(registers[sr] + offset);
 
-    update_cond_flag(instruction);
+    update_cond_flag(dr);
 }
 
 static void lea(uint16_t instruction){
@@ -350,7 +349,7 @@ static void str(uint16_t instruction){
 
     uint16_t base_addr = registers[sr];
 
-    memory[base_addr + pc_offset] = registers[dr];
+    memory[(uint16_t)(base_addr + pc_offset)] = registers[dr];
 }
 
 static void trap(uint16_t instruction){
@@ -448,4 +447,8 @@ static bool check_key(void){
     timeout.tv_sec = 0;
     timeout.tv_usec = 0;
     return select(1, &readfds, NULL, NULL, &timeout) != 0;
+}
+
+static uint16_t swap16(uint16_t val){
+    return (val << 8) | (val >> 8);
 }

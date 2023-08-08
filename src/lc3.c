@@ -53,7 +53,7 @@ void lc3_reset(void){
     registers[R_PC] = LC3_PC_DEFAULT_START;
 }
 
-void lc3_run(void){
+lc3_result lc3_run(void){
     lc3_running = true;
 
     while (lc3_running)
@@ -109,11 +109,12 @@ void lc3_run(void){
             case OP_RES:
             case OP_RTI:
             default:
-                abort();
+                return INVALID_INSTRUCTION;
                 break;
         }
     }
     
+    return OK;
 }
 
 void lc3_load_image(FILE *file){

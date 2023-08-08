@@ -4,6 +4,8 @@ struct termios original_tio;
 
 vm_result start_vm(vm_args_t vm_args){
 
+    lc3_result lc3_res;
+
     FILE *asm_file = fopen(vm_args.asm_file_path, "rb");
 
     if(!asm_file){
@@ -19,9 +21,13 @@ vm_result start_vm(vm_args_t vm_args){
 
     lc3_reset();
 
-    lc3_run();
+    lc3_res = lc3_run();
 
     restore_input_buffering();
+
+    if(lc3_res == INVALID_INSTRUCTION){
+        return INVALID_INSTRUCTION;
+    }
 
     return OK;
 }
